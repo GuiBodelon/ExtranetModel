@@ -1,4 +1,4 @@
-# novo_sistema_vue
+# FrontEnd ExtranetModel Vue3
 
 ## Project setup
 ```
