@@ -10,7 +10,7 @@
                             <div class="row q-gutter-x-md justify-center">
                                 <b class="col-md-12">Tipo do Registro:</b>
                                 <q-select class="selectTipoOperacao col-md-8" filled v-model="tipoOperacao" :options="options" 
-                                label="Selecione o Registro" @update:model-value="" style="min-width:500px"/>
+                                label="Selecione o Registro" @update:model-value="displayGerarRegistro()" style="min-width:500px"/>
                             </div>
                         </div>
                     </Transition>
@@ -43,7 +43,7 @@
                     <!---FIM DATEPICKER-->
                     <div class="col-md-6">
                         <div class="row q-gutter-x-lg justify-center">
-                            <q-btn color="primary" class="col-md-9" icon-right="add_box" label="Novo Registro" no-caps @click="modalNovoRegistro = true;tipoOperacao=''"/>
+                            <q-btn color="primary" :disabled="!showGerarBtn" class="col-md-9" icon-right="add_box" label="Gerar Novo Registro" no-caps @click="gerarRegistro()"/>
                         </div>
                     </div>
                 </div>
@@ -96,58 +96,7 @@
                     </q-table>
                 </Transition>                
             </div>
-            <q-dialog v-model="modalNovoRegistro" persistent transition-show="scale" transition-hide="scale">
-                <q-card class="text-dark" style="max-width: 32vw;">
-                    <q-card-section class="row items-center q-pb-none">
-                        <div class="text-h5 row items-end"><q-icon name="add_box" size="1.6em" class="q-mr-sm"></q-icon><span>Novo Registro</span></div>
-                        <q-space />
-                        <q-btn icon="close" flat round dense v-close-popup />
-                    </q-card-section>
-                    <q-card-section>
-                        <q-form @submit="gerarRegistro()">
-                            <div class="q-gutter-lg row">                            
-                                <!---RADIOS: ESPECIFICAR O TIPO DE REGISTRO A SER GERADO--->
-                                <div class="q-mt-xl q-gutter-y-sm">
-                                    <em class="text-bold">Selecione o tipo de Registro que deseja gerar:</em>
-                                    <q-option-group v-model="tipoRegistro" :options="registrosOptions" @update:model-value="feedDropdown();displayGerarRegistro();tipoOperacao = ''" inline dense checked-icon="task_alt" unchecked-icon="panorama_fish_eye"/>
-                                </div>
-                                <!--SELECT: TIPO DE OPERAÇÃO-->
-                                <Transition name="slide-fade">                                
-                                    <q-select v-if="tipoRegistro" class="selectTipoOperacao col-md-11" filled v-model="tipoOperacao" :options="options" 
-                                    label="Selecione o Registro" @update:model-value="consultarRegistros(tipoOperacao.value, mesrefRegistrosAuxiliares);displayGerarRegistro()"/>
-                                </Transition>
-                                <!--FIM SELECT-->
-                                <div class="row items-end col-md-11">
-                                    <Transition name="slide-fade">
-                                        <!---DATEPICKER: MÊS DE REFERÊNCIA-->
-                                        <div v-if="showGerarBtn" class="col-md-5">
-                                            <b>Selecione o Mês de Referência:</b>
-                                            <q-input fille v-model="mesrefRegistrosAuxiliares" mask="##/####" :rules="[val => (val !== null && val !== '') || 'Por favor digite um mes de referência.', val => (val.length == 7) || 'Digite um mês valido.']" class="mesrefInput">
-                                                <template v-slot:append>
-                                                    <q-icon name="event" class="cursor-pointer">
-                                                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                                            <q-date v-model="mesrefRegistrosAuxiliares" mask="MM/YYYY" color="green-9" :locale="myLocale" today-btn>
-                                                                <div class="row items-center justify-end">
-                                                                    <q-btn v-close-popup label="Fechar" color="primary" flat />
-                                                                </div>
-                                                            </q-date>
-                                                        </q-popup-proxy>
-                                                    </q-icon>
-                                                </template>
-                                            </q-input>
-                                        </div>
-                                    </Transition>
-                                    <q-space v-if="showGerarBtn"/>
-                                    <div class="row self-end q-pb-lg">
-                                        <q-btn color="negative" label="Cancelar" v-close-popup/>
-                                        <q-btn :disabled="tipoOperacao && !showGerarBtn" type="submit" class="q-ml-sm" v-close-popup label="Gerar Registro" icon-right="upload" color="primary"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </q-form>
-                    </q-card-section>
-                </q-card>
-            </q-dialog>
+
             <q-dialog v-model="modalTotalizadorExcel" persistent transition-show="scale" transition-hide="scale">
                 <q-card class="text-dark" style="min-width:30vw;max-width:50vw;min-height:40vh">
                     <q-card-section class="row items-center q-pb-none">
@@ -231,7 +180,7 @@ export default {
                     }
                 })
                 this.options.push({
-                    'value': 'R',
+                    'value': 'A',
                     'label': 'VISUALIZAR TODOS OS REGISTROS',
                     'description': 'VISUALIZAR TODOS OS REGISTROS',
                 })
@@ -257,10 +206,10 @@ export default {
             }
         },
         displayGerarRegistro(){
-            if(this.tipoOperacao.value != 'C' && this.tipoRegistro == 'C' || this.tipoOperacao.value == 60){
-                this.showGerarBtn = true;
-            }else{
+            if(this.tipoOperacao.value == 'A'){
                 this.showGerarBtn = false;
+            }else{
+                this.showGerarBtn = true;
             }
         },
         gerarRegistro(){
@@ -354,6 +303,9 @@ export default {
                             
             })            
         },
+
+
+        
         gerarRegistroOficial(lote){
             const payload = {
                 lote: lote

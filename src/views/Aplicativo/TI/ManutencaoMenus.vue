@@ -188,7 +188,7 @@ export default defineComponent({
             this.loadingTable = true
             axiosInstance({
                 method: "get",
-                url: "ti/menus",
+                url: "ti/menus/menus",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")}
             }).then((response) => {
                 this.rows = response.data
@@ -206,7 +206,7 @@ export default defineComponent({
             }
             axiosInstance({
                 method: "put",
-                url: "ti/update-menu",
+                url: "ti/menus/update-menu",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
                 params: payload
             }).then((response) => {
@@ -225,7 +225,7 @@ export default defineComponent({
             }
             axiosInstance({
                 method: "post",
-                url: "ti/create-menu",
+                url: "ti/menus/create-menu",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
                 params: payload
             }).then((response) => {
@@ -242,7 +242,7 @@ export default defineComponent({
             }
             axiosInstance({
                 method: "put",
-                url: "ti/change-menu-status",
+                url: "ti/menus/change-menu-status",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
                 params: payload
             }).then((response) => {
@@ -256,7 +256,7 @@ export default defineComponent({
             if(menuCreate == 'child'){
                 axiosInstance({
                 method: "get",
-                url: "ti/get-parent-menus",
+                url: "ti/menus/get-parent-menus",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")}
                 }).then((response) => {
                     this.selectParentOptions = response.data.map(function(item){
@@ -277,7 +277,7 @@ export default defineComponent({
             }
             axiosInstance({
                 method: "post",
-                url: "ti/create-child-menu",
+                url: "ti/menus/create-child-menu",
                 headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
                 params: payload
             }).then((response) => {

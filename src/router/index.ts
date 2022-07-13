@@ -69,6 +69,7 @@ import DashboardSABE from '../views/Aplicativo/SABE/DashboardSABE.vue'
 import TI from '../views/Aplicativo/TI/TI.vue'
 import DashboardTI from '../views/Aplicativo/TI/DashboardTI.vue'
 import ManutencaoMenus from '../views/Aplicativo/TI/ManutencaoMenus.vue'
+import ManutencaoUsuariosSIG from '../views/Aplicativo/TI/ManutencaoUsuariosSIG.vue'
 
 //IMPORTS TREINAMENTO
 import Treinamento from '../views/Aplicativo/Treinamento/Treinamento.vue'
@@ -314,6 +315,11 @@ const routes: Array<RouteRecordRaw> = [
             path: '/manutencao-menus',
             name: 'Manutenção Menus',
             component: ManutencaoMenus
+          },
+          {
+            path: '/usuarios-sig',
+            name: 'Manutenção Usuários SIG',
+            component: ManutencaoUsuariosSIG
           },
         ]
       },
