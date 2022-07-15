@@ -83,8 +83,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: Login,
     meta: {
-          requireAuth: false
-        },
+      requireAuth: false //Necessita estar autenticado pra acessar rota?
+    },
     children: [
       {
         path: '/',
@@ -110,11 +110,11 @@ const routes: Array<RouteRecordRaw> = [
   /////ROTAS DO APLICATIVO APÓS AUTENTICAÇÃO DO USUÁRIO
   {
     path: '/aplicativo',
-    component: Aplicativo,    
+    component: Aplicativo,
     meta: {
-          requireAuth: true
-        },
-    children: [    
+      requireAuth: true
+    },
+    children: [
       /////ROTA DASHBOARDS DO USUÁRIO
       {
         path: '/dashboards',
@@ -149,8 +149,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Assessoria Medica',
             component: DashboardAssessoriaMedica,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -169,8 +169,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Auditoria',
             component: DashboardAuditoria,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -189,8 +189,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Autorizacao',
             component: DashboardAutorizacao,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           }
         ]
       },
@@ -209,8 +209,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Cadastro',
             component: DashboardCadastro,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -223,14 +223,14 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requireAuth: true
         },
-        children: [          
+        children: [
           {
             path: '/dashboard-comunicacao',
             name: 'Dashboard Comunicacao',
             component: DashboardComunicacao,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -249,8 +249,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Contas Medicas',
             component: DashboardContasMedicas,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -259,7 +259,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/credenciamento',
         name: 'Credenciamento',
-        component: Credenciamento,        
+        component: Credenciamento,
         meta: {
           requireAuth: true
         },
@@ -269,12 +269,12 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Credenciamento',
             component: DashboardCredenciamento,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           }
         ]
       },
-      
+
       /////ROTAS Governanca
       {
         path: '/Governanca',
@@ -289,27 +289,27 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Governanca',
             component: DashboardGovernanca,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
           {
             path: '/indicadores',
             name: 'Indicadores',
             component: Indicadores,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
           {
             path: '/teste',
             name: 'Teste',
             component: Teste,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
-      },      
+      },
 
       /////ROTAS FINANCEIRO
       {
@@ -319,22 +319,22 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requireAuth: true
         },
-        children: [  
-          {        
+        children: [
+          {
             path: '/dashboard-financeiro',
             name: 'Dashboard Financeiro',
             component: DashboardFinanceiro,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
-          {        
+          {
             path: '/registros-auxiliares',
             name: 'Registros Auxiliares',
             component: RegistrosAuxiliares,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -353,8 +353,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Recurso de Glosa',
             component: DashboardRecursoDeGlosa,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -373,8 +373,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard RH',
             component: DashboardRH,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -393,8 +393,8 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard SABE',
             component: DashboardSABE,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -413,24 +413,24 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard TI',
             component: DashboardTI,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
           {
             path: '/manutencao-menus',
             name: 'Manutenção Menus',
             component: ManutencaoMenus,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
           {
             path: '/usuarios-sig',
             name: 'Manutenção Usuários SIG',
             component: ManutencaoUsuariosSIG,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
@@ -449,29 +449,29 @@ const routes: Array<RouteRecordRaw> = [
             name: 'Dashboard Treinamento',
             component: DashboardTreinamento,
             meta: {
-          requireAuth: true
-        },
+              requireAuth: true
+            },
           },
         ]
       },
 
     ]
   },
-  { 
-    path: '/*', 
-    component: Login ,
+  {
+    path: '/*',
+    component: Login,
     meta: {
-          requireAuth: false
-        },
+      requireAuth: false
+    },
   },
-  { 
-    path: '/:catchAll(.*)*', 
-    component: Login ,
+  {
+    path: '/:catchAll(.*)*',
+    component: Login,
     meta: {
-          requireAuth: false
-        },
+      requireAuth: false
+    },
   }
-  
+
 ]
 
 const router = createRouter({
@@ -482,7 +482,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = Cookies.get("authorizerToken")
   if (to.matched.some(record => record.meta.requireAuth) && !token) {
-    next({ name: 'Login', query: { next: to.fullPath } })
+    next({ name: 'LoginForm', query: { next: to.fullPath } })
     Notify.create({
       textColor: 'white',
       icon: 'error',

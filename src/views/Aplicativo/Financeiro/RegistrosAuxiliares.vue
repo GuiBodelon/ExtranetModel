@@ -3,14 +3,15 @@
         <div class="justify-center">
             <form id="formulario" name="formulario" class="mb-5 text-center">
                 <div class="grid gap-6 justify-center" style="padding-top: 2%;">
-                    <p class="text-bold text-h6"><em>Selecione o tipo de Registro que deseja consultar:</em></p>  
+                    <p class="text-bold text-h6"><em>Selecione o tipo de Registro que deseja consultar:</em></p>
                     <!--SELECT: TIPO DE OPERAÇÃO-->
                     <Transition name="slide-fade">
                         <div v-if="options" class="col-md-6">
                             <div class="row q-gutter-x-md justify-center">
                                 <b class="col-md-12">Tipo do Registro:</b>
-                                <q-select class="selectTipoOperacao col-md-8" filled v-model="tipoOperacao" :options="options" 
-                                label="Selecione o Registro" @update:model-value="displayGerarRegistro()" style="min-width:500px"/>
+                                <q-select class="selectTipoOperacao col-md-8" filled v-model="tipoOperacao"
+                                    :options="options" label="Selecione o Registro"
+                                    @update:model-value="displayGerarRegistro()" style="min-width:500px" />
                             </div>
                         </div>
                     </Transition>
@@ -22,28 +23,34 @@
                                 <div class="col-md-9">
                                     <b class="float-left">Mês de Referência:</b>
                                 </div>
-                                <q-input filled v-model="mesrefRegistrosAuxiliares" :date="['mesrefRegistrosAuxiliares']" mask="##/####" class="mesrefInput col-md-4">
+                                <q-input filled v-model="mesrefRegistrosAuxiliares"
+                                    :date="['mesrefRegistrosAuxiliares']" mask="##/####" class="mesrefInput col-md-4">
                                     <template v-slot:append>
                                         <q-icon name="event" class="cursor-pointer">
                                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                                <q-date v-model="mesrefRegistrosAuxiliares" mask="MM/YYYY" color="green-9" :locale="myLocale" today-btn default-view="Years">
-                                                <div class="row items-center justify-end">
-                                                    <q-btn v-close-popup label="Fechar" color="primary" flat />
-                                                </div>
+                                                <q-date v-model="mesrefRegistrosAuxiliares" mask="MM/YYYY"
+                                                    color="green-9" :locale="myLocale" today-btn default-view="Years">
+                                                    <div class="row items-center justify-end">
+                                                        <q-btn v-close-popup label="Fechar" color="primary" flat />
+                                                    </div>
                                                 </q-date>
                                             </q-popup-proxy>
                                         </q-icon>
                                     </template>
                                 </q-input>
                                 <!---BOTÃO GERAR--->
-                                <q-btn @click.prevent="consultarRegistros(tipoOperacao.value, mesrefRegistrosAuxiliares)" color="green-9" label="Consultar Registros" icon-right="fa-solid fa-magnifying-glass" class="col-md-5 q-ml-md"/>                                
+                                <q-btn
+                                    @click.prevent="consultarRegistros(tipoOperacao.value, mesrefRegistrosAuxiliares)"
+                                    color="green-9" label="Consultar Registros"
+                                    icon-right="fa-solid fa-magnifying-glass" class="col-md-5 q-ml-md" />
                             </div>
                         </div>
                     </Transition>
                     <!---FIM DATEPICKER-->
                     <div class="col-md-6">
                         <div class="row q-gutter-x-lg justify-center">
-                            <q-btn color="primary" :disabled="!showGerarBtn" class="col-md-9" icon-right="add_box" label="Gerar Novo Registro" no-caps @click="gerarRegistro()"/>
+                            <q-btn color="primary" :disabled="!showGerarBtn" class="col-md-9" icon-right="add_box"
+                                label="Gerar Novo Registro" no-caps @click="gerarRegistro()" />
                         </div>
                     </div>
                 </div>
@@ -51,60 +58,70 @@
 
             <div class="q-pa-md">
                 <Transition name="slide-fade">
-                    <q-table v-if="rows.length > 0" class="my-sticky-header-table" title="Registros Auxiliares" :rows="rows" :columns="columns" row-key="name" :loading="loadingTable" no-data-label="Sem dados disponíveis. Selecione alguma opção acima para filtrar os dados.">
+                    <q-table v-if="rows.length > 0" class="my-sticky-header-table" title="Registros Auxiliares"
+                        :rows="rows" :columns="columns" row-key="name" :loading="loadingTable"
+                        no-data-label="Sem dados disponíveis. Selecione alguma opção acima para filtrar os dados.">
                         <template v-slot:loading>
                             <q-inner-loading showing color="primary" />
                         </template>
-                         <template v-slot:top-right>
-                            <q-btn color="primary" icon="refresh" label="Atualizar Tabela" outline no-caps @click="consultarRegistros(tipoOperacao.value, mesrefRegistrosAuxiliares)"/>
+                        <template v-slot:top-right>
+                            <q-btn color="primary" icon="refresh" label="Atualizar Tabela" outline no-caps
+                                @click="consultarRegistros(tipoOperacao.value, mesrefRegistrosAuxiliares)" />
                         </template>
                         <template v-slot:body="props">
                             <q-tr :props="props">
                                 <q-td key="lote" :props="props">
-                                        {{ props.row.lote }}
+                                    {{ props.row.lote }}
                                 </q-td>
                                 <q-td key="descricao" :props="props">
-                                        {{ props.row.descricao }}
+                                    {{ props.row.descricao }}
                                 </q-td>
                                 <q-td key="mesref" :props="props">
-                                        {{ props.row.mesref }}
+                                    {{ props.row.mesref }}
                                 </q-td>
                                 <q-td key="operador" :props="props">
-                                        {{ props.row.operador }}
+                                    {{ props.row.operador }}
                                 </q-td>
                                 <q-td key="data_sistema" :props="props">
-                                        {{ props.row.data_sistema }}
+                                    {{ props.row.data_sistema }}
                                 </q-td>
                                 <q-td key="status" :props="props">
-                                    <q-badge color="red" :class="(props.row.status=='PROCESSAMENTO CONCLUÍDO') ? 'bg-green text-white' : (props.row.status=='NOVO PROCESSO') ? 'bg-blue text-white' : (props.row.status=='PROCESSAMENTO COM FALHA') ?  'bg-red text-white' : (props.row.status=='EM PROCESSAMENTO') ? 'bg-orange text-white' : 'bg-black text-white'">
+                                    <q-badge color="red"
+                                        :class="(props.row.status == 'PROCESSAMENTO CONCLUÍDO') ? 'bg-green text-white' : (props.row.status == 'NOVO PROCESSO') ? 'bg-blue text-white' : (props.row.status == 'PROCESSAMENTO COM FALHA') ? 'bg-red text-white' : (props.row.status == 'EM PROCESSAMENTO') ? 'bg-orange text-white' : 'bg-black text-white'">
                                         {{ props.row.status }}
                                     </q-badge>
                                 </q-td>
                                 <q-td key="lote" :props="props" class="q-gutter-sm">
-                                    <q-btn v-if="props.row.status=='PROCESSAMENTO CONCLUÍDO'" @click="modalTotalizadorExcel=true;chamarModalTotalizadorExcel(props.row.lote)" dense color="green-9" icon="fa-solid fa-file-excel" :id="props.row.lote">
+                                    <q-btn v-if="props.row.status == 'PROCESSAMENTO CONCLUÍDO'"
+                                        @click="modalTotalizadorExcel = true; chamarModalTotalizadorExcel(props.row.lote)"
+                                        dense color="green-9" icon="fa-solid fa-file-excel" :id="props.row.lote">
                                         <q-tooltip class="text-body2">Gerar Excel</q-tooltip>
                                     </q-btn>
-                                    <q-btn v-if="props.row.status=='PROCESSAMENTO CONCLUÍDO'" dense color="primary" icon="fa-solid fa-check" @click="gerarRegistroOficial(props.row.lote)">
+                                    <q-btn v-if="props.row.status == 'PROCESSAMENTO CONCLUÍDO'" dense color="primary"
+                                        icon="fa-solid fa-check" @click="gerarRegistroOficial(props.row.lote)">
                                         <q-tooltip class="text-body2">Aprovar como Registro Oficial</q-tooltip>
-                                    </q-btn>                                
-                                    <q-btn v-if="props.row.status=='PROCESSAMENTO COM FALHA'" dense color="negative" icon="fa-solid fa-eye" :id="props.row.lote">
+                                    </q-btn>
+                                    <q-btn v-if="props.row.status == 'PROCESSAMENTO COM FALHA'" dense color="negative"
+                                        icon="fa-solid fa-eye" :id="props.row.lote">
                                         <q-tooltip class="text-body2">Visualizar motivo da falha</q-tooltip>
                                     </q-btn>
                                 </q-td>
                             </q-tr>
                         </template>
                     </q-table>
-                </Transition>                
+                </Transition>
             </div>
 
             <q-dialog v-model="modalTotalizadorExcel" persistent transition-show="scale" transition-hide="scale">
                 <q-card class="text-dark" style="min-width:30vw;max-width:50vw;min-height:40vh">
                     <q-card-section class="row items-center q-pb-none">
-                        <div class="text-h5 row items-end"><q-icon name="analytics" size="1.6em" class="q-mr-sm"></q-icon><span>Totalizadores</span></div>
+                        <div class="text-h5 row items-end">
+                            <q-icon name="analytics" size="1.6em" class="q-mr-sm"></q-icon><span>Totalizadores</span>
+                        </div>
                         <q-space />
                         <q-btn icon="close" flat round dense v-close-popup />
                     </q-card-section>
-                    <q-spinner-oval v-if="totalizadores.length == 0" color="#ccc" size="5em" class="absolute-center"/>
+                    <q-spinner-oval v-if="totalizadores.length == 0" color="#ccc" size="5em" class="absolute-center" />
                     <q-markup-table v-if="totalizadores.length !== 0">
                         <thead>
                             <tr>
@@ -119,7 +136,7 @@
                             <tr>
                                 <td class="text-left">{{ total.tipo_evento }}</td>
                                 <td class="text-left">{{ total.total_evento }}</td>
-                                <td class="text-left">{{ total.total_recuperado}}</td>
+                                <td class="text-left">{{ total.total_recuperado }}</td>
                                 <td class="text-left">{{ total.total_pagamento }}</td>
                                 <td class="text-left">{{ total.total_glosas }}</td>
                             </tr>
@@ -127,14 +144,16 @@
                     </q-markup-table>
                     <q-card-actions class="row" v-if="totalizadores.length !== 0">
                         <div class="col-md-12">
-                            <q-btn label="Gerar Excel" icon-right="download" color="primary" class="q-ma-sm float-right" @click="gerarExcel(loteAtual)"></q-btn>
-                            <q-btn label="Reportar Problema" icon-right="report" color="negative" class="q-ma-sm float-right"></q-btn>
+                            <q-btn label="Gerar Excel" icon-right="download" color="primary" class="q-ma-sm float-right"
+                                @click="gerarExcel(loteAtual)"></q-btn>
+                            <q-btn label="Reportar Problema" icon-right="report" color="negative"
+                                class="q-ma-sm float-right"></q-btn>
                         </div>
                     </q-card-actions>
                 </q-card>
             </q-dialog>
         </div>
-    </section>    
+    </section>
 </template>
 
 <script>
@@ -146,8 +165,8 @@ import { Notify } from 'quasar'
 
 export default {
     name: 'RegistrosAuxiliares',
-    data(){
-        return{
+    data() {
+        return {
             tipoRegistro: '',
             options: [],
             optionsResponse: {},
@@ -159,35 +178,35 @@ export default {
         }
     },
 
-    mounted(){
+    mounted() {
         this.feedDropdown()
     },
 
-    methods: {        
-        feedDropdown(){
+    methods: {
+        feedDropdown() {
             this.options = []
             axiosInstance({
                 method: 'get',
                 url: 'financeiro/registros-auxiliares/inputs',
-                headers: {Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
+                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken") },
             })
-            .then(response => {
-                this.options = response.data.map(function(item){
-                    return {
-                        'value' : item.id,
-                        'label' : item.descricao,
-                        'description' : item.descricao
-                    }
+                .then(response => {
+                    this.options = response.data.map(function (item) {
+                        return {
+                            'value': item.id,
+                            'label': item.descricao,
+                            'description': item.descricao
+                        }
+                    })
+                    this.options.push({
+                        'value': 'A',
+                        'label': 'VISUALIZAR TODOS OS REGISTROS',
+                        'description': 'VISUALIZAR TODOS OS REGISTROS',
+                    })
                 })
-                this.options.push({
-                    'value': 'A',
-                    'label': 'VISUALIZAR TODOS OS REGISTROS',
-                    'description': 'VISUALIZAR TODOS OS REGISTROS',
-                })
-            })
         },
-        consultarRegistros(tipoOperacao, mesref){
-            if(tipoOperacao){
+        consultarRegistros(tipoOperacao, mesref) {
+            if (tipoOperacao) {
                 this.loadingTable = true
                 const payload = {
                     tipoOperacao: tipoOperacao,
@@ -196,23 +215,23 @@ export default {
                 axiosInstance({
                     method: 'get',
                     url: 'financeiro/registros-auxiliares/tabela-lote',
-                    headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
+                    headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken") },
                     params: payload
                 })
-                .then(response => {
-                    this.loadingTable = false
-                    this.rows = response.data
-                })
+                    .then(response => {
+                        this.loadingTable = false
+                        this.rows = response.data
+                    })
             }
         },
-        displayGerarRegistro(){
-            if(this.tipoOperacao.value == 'A'){
+        displayGerarRegistro() {
+            if (this.tipoOperacao.value == 'A') {
                 this.showGerarBtn = false;
-            }else{
+            } else {
                 this.showGerarBtn = true;
             }
         },
-        gerarRegistro(){
+        gerarRegistro() {
             this.loadingTable = true
             const payload = {
                 mesref: this.mesrefRegistrosAuxiliares,
@@ -221,16 +240,16 @@ export default {
             axiosInstance({
                 method: 'post',
                 url: 'financeiro/registros-auxiliares/gerar-registro',
-                headers: {Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
+                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken") },
                 params: payload
-            }).then((response) => {                
-                if(response.data.result == true){
+            }).then((response) => {
+                if (response.data.result == true) {
                     Notify.create({
                         type: 'positive',
                         message: 'Novo registro gerado com sucesso!'
                     })
                     this.consultarRegistros(response.data.operacao, this.mesrefRegistrosAuxiliares)
-                }else{
+                } else {
                     Notify.create({
                         type: 'negative',
                         message: 'Ocorreu um erro inesperado, por favor tente novamente.'
@@ -238,23 +257,23 @@ export default {
                 }
             })
             this.loadingTable = false
-        },        
-        chamarModalTotalizadorExcel(lote){
+        },
+        chamarModalTotalizadorExcel(lote) {
             this.loteAtual = lote
-            this.totalizadores = []            
+            this.totalizadores = []
             const payload = {
                 lote_fk: lote
             }
             axiosInstance({
                 method: 'get',
                 url: 'financeiro/registros-auxiliares/eventos-pagos/totalizador',
-                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
+                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken") },
                 params: payload
             }).then((response) => {
                 this.totalizadores = response.data
             })
         },
-        gerarExcel(lote){
+        gerarExcel(lote) {
             const notificacaoExcel = Notify.create({
                 group: false,
                 spinner: true,
@@ -267,56 +286,56 @@ export default {
             axiosInstance({
                 method: 'get',
                 url: 'financeiro/registros-auxiliares/eventos-pagos/gerar-excel/filename',
-                headers: { 
+                headers: {
                     Authorization: 'Bearer ' + Cookies.get("authorizerToken")
                 },
                 params: payload
             })
-            .then((response) => {   
-                const filename = response.data.map(function(item){
-                    return item.descricao + ' - Mês de Referencia - ' + item.mesref + ' - Lote - ' + item.lote
-                })
-                axiosInstance({
-                    method: 'get',
-                    url: 'financeiro/registros-auxiliares/eventos-pagos/gerar-excel',
-                    headers: { 
-                        Authorization: 'Bearer ' + Cookies.get("authorizerToken")
-                    },
-                    params: payload,
-                    responseType: 'blob'
-                })                        
                 .then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');                
-                    link.href = url;
-                    link.setAttribute('download', filename+'.xlsx'); //or any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                    notificacaoExcel({
-                        type: 'positive',
-                        icon: 'done',
-                        spinner: false,
-                        message: 'Excel gerado com sucesso!',
-                        timeout: 2500
+                    const filename = response.data.map(function (item) {
+                        return item.descricao + ' - Mês de Referencia - ' + item.mesref + ' - Lote - ' + item.lote
                     })
+                    axiosInstance({
+                        method: 'get',
+                        url: 'financeiro/registros-auxiliares/eventos-pagos/gerar-excel',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("authorizerToken")
+                        },
+                        params: payload,
+                        responseType: 'blob'
+                    })
+                        .then((response) => {
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', filename + '.xlsx'); //or any other extension
+                            document.body.appendChild(link);
+                            link.click();
+                            notificacaoExcel({
+                                type: 'positive',
+                                icon: 'done',
+                                spinner: false,
+                                message: 'Excel gerado com sucesso!',
+                                timeout: 2500
+                            })
+                        })
+
                 })
-                            
-            })            
         },
 
 
-        
-        gerarRegistroOficial(lote){
+
+        gerarRegistroOficial(lote) {
             const payload = {
                 lote: lote
             }
             axiosInstance({
                 method: 'post',
                 url: 'financeiro/registros-auxiliares/gerar-registro-oficial',
-                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken")},
+                headers: { Authorization: 'Bearer ' + Cookies.get("authorizerToken") },
                 params: payload
             }).then((response) => {
-                if(response.data[0].registroExistente == 'true'){
+                if (response.data[0].registroExistente == 'true') {
                     Notify.create({
                         message: response.data[0].mensagem,
                         type: 'negative',
@@ -327,7 +346,7 @@ export default {
                             { label: 'Sim', color: 'white', handler: () => { /* ... */ } }
                         ]
                     });
-                }else{
+                } else {
                     Notify.create({
                         message: response.data[0].mensagem,
                         type: 'positive',
@@ -338,7 +357,7 @@ export default {
     },
 
     setup() {
-        const mesrefRegistrosAuxiliares = ref((new Date().getMonth()+1).toString().padStart(2, '0') + '/' + new Date().getFullYear())
+        const mesrefRegistrosAuxiliares = ref((new Date().getMonth() + 1).toString().padStart(2, '0') + '/' + new Date().getFullYear())
 
         const columns = [
             //{name: 'id', required: true, label: 'Lote', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true},
@@ -386,23 +405,30 @@ export default {
 </script>
 
 <style scoped>
-form{
+form {
     color: var(--text-primary);
 }
-.selectTipoOperacao, .mesrefInput{
+
+.selectTipoOperacao,
+.mesrefInput {
     background: var(--input-bg);
 }
-.btnGerarRegistro{
+
+.btnGerarRegistro {
     color: var(--btn-color);
 }
+
 .slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
 }
+
 .slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter-from, .slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
 }
 </style>
